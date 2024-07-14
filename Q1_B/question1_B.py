@@ -4,35 +4,37 @@ def Alice(text):
   
   hash_fnAlice = hashlib.sha256()
 
-
   hash_fnAlice.update(text)
 
   hashAlice= hash_fnAlice.hexdigest()
+ 
+  return [hashAlice, text]
 
-  return hashAlice
 
+def Verify(text):
 
-def Bob(text):
+  values=Alice(text)
+  
+  hash_Alice=values[0]
+  textAlice=values[1]
 
   hash_fnBob = hashlib.sha256()
+  
+  hash_fnBob.update(textAlice)
+
+  hash_Bob = hash_fnBob.hexdigest()
+
+  if(hash_Alice==hash_Bob):
+    print("Transmission Not tampered\n")
+
+  else:
+    print("The hashes are different\n")
 
 
-  hash_fnBob.update(text)
 
-  hashBob = hash_fnBob.hexdigest()
+inp=b"Hello, How Are You?"
 
-  return hashBob
-
-
-input=b"Hello, How Are You?"
-hash_Alice= Alice(input)
-hash_Bob= Bob(input)
-
-if(hash_Alice==hash_Bob):
-  print("Transmission Not tampered\n")
-
-else:
-  print("The hashes are different\n")
+Verify(inp)
 
 
 
